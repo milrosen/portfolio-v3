@@ -1,17 +1,25 @@
 import React, { useRef, useEffect } from "react";
-import draw from "./webgl.js"
+import { setup } from "./webgl.js"
 
 export default function WebglHero() {
 	const canvasRef = useRef();
 	const frameRef = useRef();
 
 	useEffect(() => {
-		var ctx = canvasRef.current.getContext("webgl");
-		requestAnimationFrame(() => draw(ctx));
+		var gl = canvasRef.current.getContext("webgl2");
+
+		const getShaders = async () => {
+			const draw = await setup(gl);
+			requestAnimationFrame(() => draw(gl));
+		}
+
+		getShaders();
 
 		const handleResize = e => {
-			ctx.canvas.width = frameRef.current.clientWidth;
-			ctx.canvas.height = frameRef.current.clientHeight;
+			const { width, height } = frameRef.current.getBoundingClientRect();
+			gl.canvas.height = height - 2.5;
+			gl.canvas.width = width - 2;
+			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 		};
 
 		handleResize();
