@@ -1,25 +1,30 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
+import draw from "./webgl.js"
 
 export default function WebglHero() {
-  React.useEffect(() => {
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    ctx.moveTo(0, 0);
-    ctx.lineTo(200, 100);
-    ctx.stroke();
-  }, []);
+	const canvasRef = useRef();
+	const frameRef = useRef();
 
-  return (
-    <div>
-      <h1>HTML5 Canvas + React.js</h1>
-      <canvas
-        id="myCanvas"
-        width="200"
-        height="100"
-        style={{ border: "1px solid #d3d3d3" }}
-      >
-        Your browser does not support the HTML canvas tag.
-      </canvas>
-    </div>
-  );
+	useEffect(() => {
+		var ctx = canvasRef.current.getContext("webgl");
+		requestAnimationFrame(() => draw(ctx));
+
+		const handleResize = e => {
+			ctx.canvas.width = frameRef.current.clientWidth;
+			ctx.canvas.height = frameRef.current.clientHeight;
+		};
+
+		handleResize();
+		window.addEventListener("resize", handleResize);
+
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
+
+	return (
+		<div className="Frame" ref={frameRef} >
+			<canvas ref={canvasRef}>
+				Your browser does not support the HTML canvas tag.
+			</canvas>
+		</div >
+	);
 }
