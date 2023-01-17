@@ -6306,6 +6306,11 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
+nblas@^2.1.9:
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/nblas/-/nblas-2.1.9.tgz#5cbdd948b8bef5b0a3ff4cc6c2b081145853b48e"
+  integrity sha512-nMMTKm+ETAT2fYbR54Y3v448iu9akEA2wDRM0mQL8bvjBHBL2zRu3Ww68k0/OLwWb5uQG9ovRNunV1UUjZEREw==
+
 negotiator@0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.3.tgz#58e323a72fedc0d6f9cd4d31fe49f51479590ccd"
@@ -6315,6 +6320,11 @@ neo-async@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
+
+nlapack@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/nlapack/-/nlapack-2.0.4.tgz#ab04cdafc32edb98a3d28864f231f5bc78a1515f"
+  integrity sha512-wOSREY+1LoAQCJkOR+d4xNFXYZEPaXH8iLxbAHCFj/+ynMtNGfWOihMzTEo6rL+fzVIWcoU00zFxNB34+8BXSw==
 
 no-case@^3.0.4:
   version "3.0.4"
@@ -8593,6 +8603,11 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
+types@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/types/-/types-0.1.1.tgz#860c6859d11366293f835d8c95aebcf95029838e"
+  integrity sha512-JuntZtJj4MKLE9x/XBs7IjsznYhzETwr34pw3XJTKvgYtAMdeMG+o8x8U85E5Lm6eCPa1DdOdGVsHMwq4ZnZAg==
+
 unbox-primitive@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/unbox-primitive/-/unbox-primitive-1.0.2.tgz#29032021057d5e6cdbd08c5129c226dff8ed6f9e"
@@ -8724,6 +8739,14 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
+
+vectorious@^6.1.4:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/vectorious/-/vectorious-6.1.4.tgz#5adab922419e06d21290392f948a3544ba47c412"
+  integrity sha512-3xKPhuG8j6XCdaClpkIh5rnJPM+NjcHlUJJYsI/zMFWZEWHCa4uY1/qxnIh6LXdX9zVTXl0vD00eHJaP49ze5A==
+  optionalDependencies:
+    nblas "^2.1.9"
+    nlapack "^2.0.4"
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"

@@ -8,12 +8,12 @@ export default function WebglHero() {
 	useEffect(() => {
 		var gl = canvasRef.current.getContext("webgl2");
 
-		const getShaders = async () => {
-			const draw = await setup(gl);
-			requestAnimationFrame(() => draw(gl));
+		const mountWebgl = async () => {
+			const render = await setup(gl);
+			requestAnimationFrame(() => render());
 		}
 
-		getShaders();
+		mountWebgl();
 
 		const handleResize = e => {
 			const { width, height } = frameRef.current.getBoundingClientRect();

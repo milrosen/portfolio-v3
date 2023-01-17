@@ -1,9 +1,58 @@
+class Vector {
+	x;
+	y;
+	z;
+
+	constructor(x, y, z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+
+	normalize = () => {
+		let len = Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2);
+		this.x = this.x / len;
+		this.y = this.y / len;
+		this.z = this.z / len;
+
+		return this;
+	}
+	mult = (num) => {
+		return new Vector(this.x * num, this.y * num, this.z * num);
+	}
+	add = (vec) => {
+		this.x += vec.x;
+		this.y += vec.y;
+		this.z += vec.z;
+	};
+	subtract = (vec) => {
+		this.x -= vec.x;
+		this.y -= vec.y;
+		this.z -= vec.z;
+	};
+	dot = (vec) => {
+		return this.x * vec.x + this.y * vec.y + this.z * vec.z;
+	};
+	cross = (b) => {
+		// a X b = C(a)b where C(a) =
+		// 0 -az ay
+		// az 0 -ax
+		// -ay ax 0
+		return new Vector(0 + -this.z * b.y + this.y * b.z,
+			this.z * b.x + 0 + -this.x * b.z,
+			-this.y * b.x + this.x * b.y + 0);
+	};
+	transform = (M) => {
+		return new Vector(M[0] * this.x + M[3] * this.y + M[6] * this.z,
+			M[1] * this.x + M[4] * this.y + M[7] * this.z,
+			M[2] * this.x + M[5] * this.y + M[8] * this.z, );
+	}
+}
+
 async function setup(gl) {
 
 	const fragmentShaderSource = await (await fetch('fragment.glsl')).text();
 	const vertexShaderSource = await (await fetch('vertex.glsl')).text();
-
-	console.log(vertexShaderSource);
 
 	const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
 	const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
@@ -14,8 +63,9 @@ async function setup(gl) {
 	const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
 
 	// look up uniform locations
-	const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
-	const timeLocation = gl.getUniformLocation(program, "u_time");
+	const resolutionLocation = gl.getUniformLocation(program, "iResolution");
+	const timeLocation = gl.getUniformLocation(program, "iTime");
+	const cameraBasisLocation = gl.getUniformLocation(program, "cam_basis");
 
 	const vao = gl.createVertexArray();
 
@@ -51,23 +101,26 @@ async function setup(gl) {
 		0, // start at the beginning of the buffer
 	);
 
-	return setRenderContext({
-		gl: gl,
-		program: program,
-		vao: vao,
-		resolutionLocation: resolutionLocation,
-		timeLocation: timeLocation
-	})
-}
+	// MOVING THE CAMERA
 
-function setRenderContext({
-	gl,
-	program,
-	vao,
-	resolutionLocation,
-	timeLocation
-}) {
+	let prevtime = 0;
+	let facing = new Vector(1 / 2, Math.sqrt(3) / 2, 1); // normalized vector tanget to sphere
+	let location = new Vector(Math.sqrt(3) / 2, -1 / 2, 0); // normalized vector on unit 
+	let orth = location.cross(facing).normalize(); // right vector;
+	let velocity = [0, .5];
+	const scaling = .001;
+	const damping = .98;
+
+	window.addEventListener('wheel', e => {
+		velocity[0] += e.deltaX * scaling;
+		velocity[1] -= e.deltaY * scaling;
+
+		velocity[0] *= damping;
+		velocity[1] *= damping;
+	})
+
 	return function render(time) {
+		if (isNaN(time)) time = 0;
 		time *= 0.001; // convert to seconds
 
 		// Tell WebGL how to convert from clip space to pixels
@@ -79,8 +132,28 @@ function setRenderContext({
 		// Bind the attribute/buffer set we want.
 		gl.bindVertexArray(vao);
 
+		let deltTime = time - prevtime;
+
+		// find orth normalized basis vectors
+
+		// add velocity in x direction, then find new right vector
+		location.add(orth.mult(velocity[0] * deltTime));
+		orth = location.cross(facing).normalize();
+		// add velocity in y direction, then find new facing vector
+		location.add(facing.mult(velocity[1] * deltTime));
+		facing = orth.cross(location).normalize();
+		location.normalize()
+
+		// camBasis.x = orth, camBasis.y = location, camBasis.z = facing;
+		let camBasis = [orth.x, orth.y, orth.z,
+			location.x, location.y, location.z,
+			facing.x, facing.y, facing.z
+		]
+
+		// send matrix to webgl.
 		gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
 		gl.uniform1f(timeLocation, time);
+		gl.uniformMatrix3fv(cameraBasisLocation, false, camBasis);
 
 		gl.drawArrays(
 			gl.TRIANGLES,
@@ -88,9 +161,11 @@ function setRenderContext({
 			6, // num vertices to process
 		);
 
+		prevtime = time;
 		requestAnimationFrame(render);
 	}
 }
+
 
 function createShader(gl, type, source) {
 	const shader = gl.createShader(type);
