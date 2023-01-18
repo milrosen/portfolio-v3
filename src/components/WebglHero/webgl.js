@@ -114,9 +114,6 @@ async function setup(gl) {
 	window.addEventListener('wheel', e => {
 		velocity[0] += e.deltaX * scaling;
 		velocity[1] -= e.deltaY * scaling;
-
-		velocity[0] *= damping;
-		velocity[1] *= damping;
 	})
 
 	return function render(time) {
@@ -134,7 +131,8 @@ async function setup(gl) {
 
 		let deltTime = time - prevtime;
 
-		// find orth normalized basis vectors
+		velocity[0] *= damping;
+		velocity[1] *= damping;
 
 		// add velocity in x direction, then find new right vector
 		location.add(orth.mult(velocity[0] * deltTime));

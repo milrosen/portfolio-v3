@@ -7,10 +7,15 @@ uniform mat3 cam_basis;
 
     // we need to declare an output for the fragment shader
 out vec4 outColor;
+
+float rand(vec2 c) {
+	return fract(sin(dot(c.xy, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
 //Try to tweak this values
-const float epsilon = 0.002;
+const float epsilon = 0.003;
 float fov = radians(35.);
-const float view_radius = 7.;
+const float view_radius = 1.5;
 const int mandelbulb_iter_num = 6;
 const float camera_distance = 1.2;
 
@@ -77,7 +82,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 	vec3 ray = normalize(vec3(coord * tan(fov), 1));
 	ray = cam_basis * ray;
 
-	vec3 cam_pos = -cam_basis[2] * camera_distance + cam_basis * vec3(.75, .75, 0);
+	vec3 cam_pos = -cam_basis[2] * camera_distance + cam_basis * vec3(.5, .75, 0);
 
 	float depth = 0.;
 	float steps = 0.;
@@ -88,11 +93,22 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 	float ao = steps * 0.01;
 	ao = 1. - ao / (ao + 0.5);  // reinhard
 
-	const float contrast_offset = 0.3;
-	const float contrast_mid_level = 0.5;
+	const float contrast_offset = 0.9;
+	const float contrast_mid_level = 0.6;
 	ao = contrast(ao, contrast_offset, contrast_mid_level);
 
-	fragColor = vec4(0, 0, 0, 1.0 - ao);
+	float val = 1. - ao;
+
+	val = val - rand(fragCoord) * .4;
+
+	val = clamp(val / length(coord + vec2(.5, .5)) - .01, 0., 1.);
+
+	float low = ceil(val) * .1;
+	float mid = ceil(val - .4) * .2;
+	float high = ceil(val - .8) * .1;
+
+	val = low + mid + high;
+	fragColor = vec4(0, 0, 0, val);
 }
 
 void main() {

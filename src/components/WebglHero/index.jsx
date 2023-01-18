@@ -6,20 +6,24 @@ export default function WebglHero() {
 	const frameRef = useRef();
 
 	useEffect(() => {
-		var gl = canvasRef.current.getContext("webgl2");
+		var gl = canvasRef.current.getContext("webgl2", { antialias: false });
 
 		const mountWebgl = async () => {
 			const render = await setup(gl);
 			requestAnimationFrame(() => render());
 		}
-
 		mountWebgl();
+
+		const performanceCorrection = 1.6;
 
 		const handleResize = e => {
 			const { width, height } = frameRef.current.getBoundingClientRect();
-			gl.canvas.height = height - 2.5;
-			gl.canvas.width = width - 2;
-			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+			gl.canvas.height = height * window.devicePixelRatio / performanceCorrection - 1;
+			gl.canvas.width = width * window.devicePixelRatio / performanceCorrection;
+
+			canvasRef.current.style.height = (gl.canvas.height * performanceCorrection / window.devicePixelRatio) + 'px';
+			canvasRef.current.style.width = (gl.canvas.width * performanceCorrection / window.devicePixelRatio) + 'px';
 		};
 
 		handleResize();
