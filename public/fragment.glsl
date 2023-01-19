@@ -104,7 +104,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 	val = clamp(val / length(coord + vec2(.5, .5)) - .01, 0., 1.);
 
 	float low = ceil(val) * .1;
-	float mid = ceil(val - .4) * .2;
+	float mid = ceil(val - .4) * .15;
 	float high = ceil(val - .8) * .1;
 
 	val = low + mid + high;

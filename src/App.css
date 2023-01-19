@@ -1,5 +1,6 @@
 .App {
 	text-align: center;
+	--pad: max(20px, 4vmin);
 }
 
 .App-link {
@@ -8,19 +9,22 @@
 
 h1 {
 	position: fixed;
-	margin-left: 10vh;
-	margin-top: 10vh
+	margin-left: calc(var(--pad) + .5em);
+	margin-top: calc(var(--pad) + .25em);
+	font-size: calc(min(max(9vmin, 25px), 3em));
+	font-weight: 100;
 }
 
 .Frame {
-	margin: 6vh;
-	height: 88vh;
-	width: calc(100% - 12vh);
-	border: 2px solid black;
+	margin: var(--pad);
+	height: calc(100% - var(--pad) * 2);
+	width: calc(100% - calc(var(--pad) * 2));
+	border: 1px solid black;
 	align-items: center;
 	position: fixed;
 	image-rendering: -moz-crisp-edges;
 	image-rendering: -webkit-crisp-edges;
 	image-rendering: pixelated;
 	image-rendering: crisp-edges;
+	pointer-events: none;
 }
