@@ -1,6 +1,6 @@
 import './App.css';
 import WebglHero from './components/WebglHero';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { NavLink, useLocation, useOutlet } from 'react-router-dom'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 
