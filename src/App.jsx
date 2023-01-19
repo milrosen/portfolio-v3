@@ -15,14 +15,16 @@ function App() {
 
 	return (
 		<div className="App">
-			<h1 className='header'>Milton Rosenbaum</h1>
-			<ul className='list'>
-				{routes.map(({ path, name }, index) => (
-					<NavLink to={path} className="navLink" key={index}>
-						{name}
-					</NavLink>
-				))}
-			</ul>
+			<div className='topPanel'>
+				<div className='name'>Milton Rosenbaum</div>
+				<ul className='list'>
+					{routes.map(({ path, name }, index) => (
+						<NavLink to={path} className="navLink" key={index}>
+							{name}
+						</NavLink>
+					))}
+				</ul>
+			</div>
 
 			<SwitchTransition>
 				<CSSTransition

@@ -1,5 +1,4 @@
 .App {
-	text-align: center;
 	--pad: max(20px, 4vmin);
 }
 
@@ -7,12 +6,12 @@
 	color: #61dafb;
 }
 
-h1 {
-	position: fixed;
-	margin-left: calc(var(--pad) + .5em);
-	margin-top: calc(var(--pad) + .25em);
+.name {
+	transform: translateY(-.32em);
 	font-size: calc(min(max(9vmin, 25px), 3em));
-	font-weight: 100;
+	font-weight: 010;
+	margin: 0px;
+	margin-bottom: 1em;
 }
 
 .Frame {
@@ -27,4 +26,57 @@ h1 {
 	image-rendering: pixelated;
 	image-rendering: crisp-edges;
 	pointer-events: none;
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	row-gap: 1em;
+}
+
+.navLink {
+	font-weight: 700;
+	transition: color 300ms;
+}
+
+.active {
+	color: rgba(0, 0, 0, 0);
+}
+
+.active::before {
+	content: "⬤";
+	position: fixed;
+	animation: dot .3s linear;
+	color: rgba(0, 0, 0, 1);
+}
+
+@keyframes dot {
+	from {
+		color: rgba(0, 0, 0, 0);
+	}
+
+	to {
+		color: rgba(0, 0, 0, 1);
+	}
+}
+
+.topPanel {
+	position: fixed;
+	margin-left: calc(var(--pad) * 1.75);
+	margin-top: calc(var(--pad) * 1.75);
+}
+
+.page {
+	position: fixed;
+}
+
+a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
