@@ -1,3 +1,8 @@
+import {
+	startup,
+	getVel
+} from './handletouches.js'
+
 class Vector {
 	x;
 	y;
@@ -109,12 +114,15 @@ async function setup(gl) {
 	let orth = location.cross(facing).normalize(); // right vector;
 	let velocity = [0, .5];
 	const scaling = .001;
+	const touchScaling = .01;
 	const damping = .98;
 
 	window.addEventListener('wheel', e => {
 		velocity[0] += e.deltaX * scaling;
 		velocity[1] -= e.deltaY * scaling;
 	})
+
+	startup();
 
 	return function render(time) {
 		if (isNaN(time)) time = 0;
@@ -130,6 +138,11 @@ async function setup(gl) {
 		gl.bindVertexArray(vao);
 
 		let deltTime = time - prevtime;
+
+		const touchVelocity = getVel() || [0, 0];
+
+		velocity[0] -= touchVelocity[0] * touchScaling;
+		velocity[1] += touchVelocity[1] * touchScaling;
 
 		velocity[0] *= damping;
 		velocity[1] *= damping;
