@@ -65,8 +65,7 @@
 .bottom-right {
 	right: calc(var(--pad) * 2);
 	bottom: calc(var(--pad) * 2);
-	left: calc(var(--pad) * 2);
-	align-items: flex-end;
+	width: 8em;
 	display: flex;
 	flex-direction: column;
 }

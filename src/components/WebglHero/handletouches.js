@@ -36,7 +36,6 @@ function handleMove(evt) {
 }
 
 function handleEnd(evt) {
-	evt.preventDefault();
 	const touches = evt.changedTouches;
 
 	vel = [0, 0];

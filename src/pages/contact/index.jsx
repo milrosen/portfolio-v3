@@ -37,20 +37,18 @@ export default class Contact extends React.Component {
 
 	render() {
 		return (
-			<div className='page bottom-right'>
+			<div className='page bottom-right inputFormPage'>
 				<div className={`confirmation${this.state.displayConfirmation ? ' display' : ''}`}>email sent</div>
 				<form onSubmit={this.handleSubmit}>
 					<label>
-						Name:
-						<input required name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+						<input placeholder='Name' className='textInput' required name="name" type="text" value={this.state.name} onChange={this.handleChange} />
 					</label>
 					<label>
-						Email:
-						<input required name="email" type="email" value={this.state.email} onChange={this.handleChange} />
+						<input placeholder='Email' className='textInput' required name="email" type="email" value={this.state.email} onChange={this.handleChange} />
 					</label>
 					<label>
-						Message:
-						<textarea required name="message" value={this.state.message} onChange={this.handleChange} />
+						Message
+						<textarea className='textInput' required name="message" value={this.state.message} onChange={this.handleChange} />
 					</label>
 					<input type="submit" value="Submit" />
 				</form>

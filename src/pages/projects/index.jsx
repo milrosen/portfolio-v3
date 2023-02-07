@@ -7,7 +7,7 @@ const pro = [
 
 export default function projects() {
 	return (
-		<div className='page bottom-right project'>
+		<div className='page bottom-right'>
 			<div>Projects</div>
 			{pro.map(({ link, desc, name }, index) => {
 				return (
