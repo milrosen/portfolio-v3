@@ -27,6 +27,9 @@ export default class Contact extends React.Component {
 			message: this.state.message,
 		}).then(() => {
 			this.setState({ displayConfirmation: true })
+			window.setTimeout(() => {
+				this.setState({ displayConfirmation: false });
+			}, 2000)
 		});
 		this.setState({
 			name: '',
@@ -38,12 +41,12 @@ export default class Contact extends React.Component {
 	render() {
 		return (
 			<div className='page bottom-right inputFormPage'>
-				<div className={`confirmation${this.state.displayConfirmation ? ' display' : ''}`}>email sent</div>
+				<div className={`confirmation${this.state.displayConfirmation ? ' display' : ''}`}>Sent!</div>
 				<form onSubmit={this.handleSubmit}>
-					<label>
+					<label className='infoLabel'>
 						<input placeholder='Name' className='textInput' required name="name" type="text" value={this.state.name} onChange={this.handleChange} />
 					</label>
-					<label>
+					<label className='infoLabel'>
 						<input placeholder='Email' className='textInput' required name="email" type="email" value={this.state.email} onChange={this.handleChange} />
 					</label>
 					<label>

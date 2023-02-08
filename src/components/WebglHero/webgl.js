@@ -151,7 +151,7 @@ async function setup(gl) {
 		location.add(orth.mult(velocity[0] * deltTime));
 		orth = location.cross(facing).normalize();
 		// add velocity in y direction, then find new facing vector
-		location.add(facing.mult(velocity[1] * deltTime));
+		location.add(facing.mult((velocity[1] + .1) * deltTime));
 		facing = orth.cross(location).normalize();
 		location.normalize()
 
