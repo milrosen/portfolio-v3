@@ -1,3 +1,18 @@
 h2 {
 	margin-bottom: 0;
 }
+
+.project-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+	width: calc(50% - calc(var(--pad) * 4))
+}
+
+@media screen and (max-width: 1200px) {
+	.project-grid {
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr 1fr 1fr 1fr;
+		width: calc(100% - calc(var(--pad) * 4));
+	}
+}
